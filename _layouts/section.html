@@ -1,0 +1,9 @@
+---
+---
+
+{% for demo in site.demos %}
+    {% if demo.section contains page.section_id %}
+        <header>{{ demo.title }}</header>
+        <div>{{ demo.output }}</div>
+    {% endif %}
+{% endfor %}
