@@ -124,3 +124,35 @@ var symmetry = {
 }
 symmetry.init();
 symmetry.start();
+
+var lightspeed = {
+    canvas: $("#light_speed_demo")[0],
+    components: [],
+    nextgen: [],
+    tick: function () {
+        this.frame++;
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.components = $.grep(this.components, (comp, idx) => {
+            let r = comp.tick(this.frame);
+            r |= comp.paint(this.context);
+            return !r;
+        }).concat(this.nextgen);
+        this.nextgen = [];
+        this.components[1].x += 2;
+    },
+    start: function () {
+        this.interval = setInterval(this.tick, 20);
+    },
+    init: function () {
+        $(this.canvas).attr("height", $(this.canvas).height());
+        $(this.canvas).attr("width", $(this.canvas).width());
+        this.components.push(new LightClock(60, 100, 150, 50, 2, "blue"));
+        this.components.push(new LightClock(150, 100, 150, 50, 0, "red"));
+        this.components[1].photon_y -= 0.1;
+        this.context = this.canvas.getContext("2d");
+        this.frame = 0;
+        this.tick = this.tick.bind(this);
+    }
+}
+lightspeed.init();
+lightspeed.start();
