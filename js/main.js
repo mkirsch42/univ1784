@@ -1,3 +1,7 @@
+$(".square").each((idx, el) => {
+    $(el).height($(el).width());
+})
+
 var light_clock = {
     canvas: $("#light_clock_demo")[0],
     components: [],
