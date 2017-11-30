@@ -45,6 +45,13 @@ var moving = {
         this.nextgen = [];
         this.components[1].x += 1.5;
     },
+    resetClock: function() {
+        let move = this.components[1];
+        if(move.x > $(this.canvas).width() - move.d) {
+            move.x = 150;
+            move.resetLines();
+        }
+    },
     start: function () {
         this.interval = setInterval(this.tick, 20);
     },
@@ -52,7 +59,7 @@ var moving = {
         $(this.canvas).attr("height", $(this.canvas).height());
         $(this.canvas).attr("width", $(this.canvas).width());
         this.components.push(new LightClock(60, 100, 150, 50, 2, "blue"));
-        this.components.push(new LightClock(150, 100, 150, 50, 2, "red"));
+        this.components.push(new LightClock(150, 100, 150, 50, 2, "red", this.resetClock.bind(this)));
         this.context = this.canvas.getContext("2d");
         this.frame = 0;
         this.tick = this.tick.bind(this);
@@ -76,6 +83,13 @@ var slower = {
         this.nextgen = [];
         this.components[1].x += 1.5;
     },
+    resetClock: function () {
+        let move = this.components[1];
+        if (move.x > $(this.canvas).width() - move.d) {
+            move.x = 150;
+            move.resetLines();
+        }
+    },
     start: function () {
         this.interval = setInterval(this.tick, 20);
     },
@@ -83,7 +97,7 @@ var slower = {
         $(this.canvas).attr("height", $(this.canvas).height());
         $(this.canvas).attr("width", $(this.canvas).width());
         this.components.push(new LightClock(60, 100, 150, 50, 2, "blue"));
-        this.components.push(new LightClock(150, 100, 150, 50, Math.sqrt(4-1.5*1.5), "red"));
+        this.components.push(new LightClock(150, 100, 150, 50, Math.sqrt(4-1.5*1.5), "red", this.resetClock.bind(this)));
         this.context = this.canvas.getContext("2d");
         this.frame = 0;
         this.tick = this.tick.bind(this);
@@ -105,17 +119,24 @@ var symmetry = {
             return !r;
         }).concat(this.nextgen);
         this.nextgen = [];
-        console.log(1.5+$(this.canvas).css("background-position-x").replace("px", "") );
         $(this.canvas).css("background-position-x", (parseFloat($(this.canvas).css("background-position-x").replace("px","")) - 1.5) + "px");
         this.components[0].x -= 1.5;
     },
     start: function () {
         this.interval = setInterval(this.tick, 20);
     },
+    resetClock: function () {
+        let move = this.components[0];
+        if (move.x < move.d) {
+            move.x = 60+512;
+            move.resetLines();
+            $(this.canvas).css("background-position-x", "0px");
+        }
+    },
     init: function () {
         $(this.canvas).attr("height", $(this.canvas).height());
         $(this.canvas).attr("width", $(this.canvas).width());
-        this.components.push(new LightClock(60 + 512, 100, 150, 50, Math.sqrt(4 - 1.5 * 1.5), "blue"));
+        this.components.push(new LightClock(60 + 512, 100, 150, 50, Math.sqrt(4 - 1.5 * 1.5), "blue", this.resetClock.bind(this)));
         this.components.push(new LightClock(150+512, 100, 150, 50, 2, "red"));
         this.context = this.canvas.getContext("2d");
         this.frame = 0;
@@ -138,7 +159,12 @@ var lightspeed = {
             return !r;
         }).concat(this.nextgen);
         this.nextgen = [];
-        this.components[1].x += 2;
+        let move = this.components[1];
+        move.x += 2;
+        if(move.x > $(this.canvas).width() - move.d) {
+            move.x = 150;
+            move.resetLines();
+        }
     },
     start: function () {
         this.interval = setInterval(this.tick, 20);

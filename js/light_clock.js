@@ -10,8 +10,12 @@ function LightClock(x, y, d, w, v, c, l = ()=>{}) {
     this.r = 4;
     this.photon_y = this.y + this.h + this.d - this.r;
     this.photon_v = this.v;
-    this.line1 = [this.x + this.w / 2, this.photon_y, this.x + this.w / 2, this.photon_y]
+    this.line1 = [this.x + this.w / 2, this.photon_y, this.x + this.w / 2, this.photon_y];
     this.line2 = this.line1;
+    this.resetLines = function() {
+        this.line1 = [this.x + this.w / 2, this.photon_y, this.x + this.w / 2, this.photon_y];
+        this.line2 = this.line1;
+    }
     this.paint = function(ctx) {
         ctx.fillStyle = "black";
         ctx.fillRect(this.x, this.y, this.w, this.h);
@@ -30,6 +34,8 @@ function LightClock(x, y, d, w, v, c, l = ()=>{}) {
         ctx.stroke();
     }
     this.tick = function(t) {
+        this.line1[2] = this.x + this.w / 2;
+        this.line1[3] = this.photon_y;
         this.photon_y -= this.photon_v;
         if(this.photon_y <= this.y + this.h + this.r) {
             this.photon_v = - this.v;
@@ -46,7 +52,5 @@ function LightClock(x, y, d, w, v, c, l = ()=>{}) {
             this.line1[1] = this.photon_y;
             this.l(true);
         }
-        this.line1[2] = this.x + this.w / 2;
-        this.line1[3] = this.photon_y;
     }
 }
