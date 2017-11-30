@@ -186,3 +186,45 @@ var lightspeed = {
 }
 lightspeed.init();
 lightspeed.start();
+
+var curving = {
+    canvas: $("#curving_demo")[0],
+    components: [],
+    nextgen: [],
+    tick: function () {
+        this.frame++;
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.components = $.grep(this.components, (comp, idx) => {
+            let r = comp.tick(this.frame);
+            r |= comp.paint(this.context);
+            return !r;
+        }).concat(this.nextgen);
+        this.nextgen = [];
+        let curved = this.components[1];
+        let y1 = curved.y + curved.h + curved.r;
+        let y2 = y1 + curved.d - 2*curved.r;
+        let dy = curved.photon_y - y1;
+        let amp = this.grid*0.65;
+        curved.photon_x = -amp/2 * Math.cos(dy * (2*Math.PI)/(y2-y1)) + amp / 2
+
+        let vx = amp/2*(2*Math.PI)/(y2-y1)*Math.sin(dy*(2*Math.PI)/(y2-y1));
+        let vy = Math.sqrt(this.components[0].v * this.components[0].v - vx*vx);
+        curved.photon_v = vy * Math.sign(curved.photon_v);
+    },
+    start: function () {
+        this.interval = setInterval(this.tick, 20);
+    },
+    init: function () {
+        $(this.canvas).attr("height", $(this.canvas).height());
+        $(this.canvas).attr("width", $(this.canvas).width());
+        this.grid = $(this.canvas).width() / 8;
+        this.components.push(new LightClock(0.5*this.grid, 2*this.grid-2, 4*this.grid-4, 1*this.grid, 1.5, "blue"));
+        this.components.push(new LightClock(2.5*this.grid, 2*this.grid-2, 4*this.grid-4, 1*this.grid, 1.5, "red"));
+        this.components[1].photon_y -= 0.1;
+        this.context = this.canvas.getContext("2d");
+        this.frame = 0;
+        this.tick = this.tick.bind(this);
+    }
+}
+curving.init();
+curving.start();
