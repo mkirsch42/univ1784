@@ -12,7 +12,7 @@
     </div>
     <div class="card-content">
         {% for demo in site.demos %} {% if demo.section contains page.section_id %}
-            <div id="{{ page.section_id }}-{{ demo.title | replace: ' ', '' }}">{{ demo.content }}</div>
+            <div class="demo" id="{{ page.section_id }}-{{ demo.title | replace: ' ', '' }}">{{ demo.content }}</div>
         {% endif %} {% endfor %}
     </div>
 </div>
