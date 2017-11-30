@@ -26,6 +26,8 @@ GEM
     listen (3.0.8)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
+    materialize-sass (0.100.2)
+      sass (~> 3.3)
     mercenary (0.3.6)
     minima (2.1.1)
       jekyll (~> 3.3)
@@ -53,6 +55,7 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll (~> 3.6.2)
+  materialize-sass
   minima (~> 2.0)
   tzinfo-data
 

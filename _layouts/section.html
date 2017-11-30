@@ -1,9 +1,18 @@
 ---
 ---
 
-{% for demo in site.demos %}
-    {% if demo.section contains page.section_id %}
-        <header>{{ demo.title }}</header>
-        <div>{{ demo.output }}</div>
-    {% endif %}
-{% endfor %}
+<div class="card">
+    <div class="card-content card-header"><span class="card-title">{{ page.title }}</span></div>
+    <div class="card-tabs">
+        <ul class="tabs">
+            {% for demo in site.demos %} {% if demo.section contains page.section_id %}
+                <li class="tab"><a href="#{{ page.section_id }}-{{ demo.title | replace: ' ', '' }}">{{ demo.title }}</a></li>
+            {% endif %} {% endfor %}
+        </ul>
+    </div>
+    <div class="card-content">
+        {% for demo in site.demos %} {% if demo.section contains page.section_id %}
+            <div id="{{ page.section_id }}-{{ demo.title | replace: ' ', '' }}">{{ demo.content }}</div>
+        {% endif %} {% endfor %}
+    </div>
+</div>

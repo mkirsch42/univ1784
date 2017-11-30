@@ -1,8 +1,6 @@
 ---
+layout: home
 ---
 {% for section in site.sections %}
-    <section>
-        <header>{{ section.title }}</header>
-        <article>{{ section.output }}</article>
-    </section>
+    {{ section.output }}
 {% endfor %}

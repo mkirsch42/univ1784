@@ -26,6 +26,7 @@ github_username:  mkirsch42
 # Build settings
 markdown: kramdown
 plugins:
+  - materialize-sass
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
