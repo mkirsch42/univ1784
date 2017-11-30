@@ -1,27 +1,5 @@
-function FlashText(str, x, y, c, f, frames) {
-    this.str = str;
-    this.x = x;
-    this.y = y;
-    this.c = c;
-    this.f = f;
-    this.frames = frames;
-    this.tick = (t)=>{};
-    this.paint = function(ctx) {
-        if(this.frames-- > 0) {
-            ctx.font = this.f;
-            ctx.fillStyle = this.c;
-            ctx.fillText(str, this.x, this.y);
-        } else {
-            return true;
-        }
-    }
-}
-
 var light_clock = {
     canvas: $("#light_clock_demo")[0],
-    context: null,
-    interval: null,
-    frame: null,
     components: [],
     nextgen: [],
     tick: function() {
@@ -37,9 +15,8 @@ var light_clock = {
     start: function() {
         this.interval = setInterval(this.tick, 20);
     },
-    flash: async function(receive) {
+    flash: function(receive) {
         if(receive) {
-            while(this.lock);
             this.nextgen.push(new FlashText("Tick", 37, 145, "darkred", "16pt Arial", 15));
         }
     },
