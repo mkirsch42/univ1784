@@ -8,6 +8,7 @@ function LightClock(x, y, d, w, v, c, l = ()=>{}) {
     this.l = l;
     this.h = 4;
     this.r = 4;
+    this.photon_x = 0;
     this.photon_y = this.y + this.h + this.d - this.r;
     this.photon_v = this.v;
     this.line1 = [this.x + this.w / 2, this.photon_y, this.x + this.w / 2, this.photon_y];
@@ -22,7 +23,7 @@ function LightClock(x, y, d, w, v, c, l = ()=>{}) {
         ctx.fillRect(this.x, this.y + this.h + this.d, this.w, this.h);
         ctx.fillStyle = this.c;
         ctx.beginPath();
-        ctx.arc(this.x + this.w / 2, this.photon_y, this.r, 0, 2 * Math.PI, false);
+        ctx.arc(this.x + this.w / 2 + this.photon_x, this.photon_y, this.r, 0, 2 * Math.PI, false);
         ctx.fill();
         ctx.beginPath();
         ctx.strokeStyle = this.c;
